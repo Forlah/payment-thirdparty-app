@@ -43,7 +43,7 @@ func (handler *HttpHandler) responseWriter(w http.ResponseWriter, response inter
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	if _, err := w.Write(data); err != nil {
-		// should never happen .
+		return
 	}
 }
 
@@ -87,7 +87,7 @@ func (handler *HttpHandler) PostPaymentHandler(w http.ResponseWriter, r *http.Re
 			resp := models.ErrorResponse{
 				ErrorMessage: "insufficient funds",
 			}
-			handler.responseWriter(w, resp, http.StatusBadRequest)
+			handler.responseWriter(w, resp, http.StatusInternalServerError)
 			return
 		}
 
@@ -108,7 +108,7 @@ func (handler *HttpHandler) PostPaymentHandler(w http.ResponseWriter, r *http.Re
 			resp := models.ErrorResponse{
 				ErrorMessage: "error creating transaction record",
 			}
-			handler.responseWriter(w, resp, http.StatusNoContent)
+			handler.responseWriter(w, resp, http.StatusInternalServerError)
 			return
 		}
 
@@ -117,7 +117,7 @@ func (handler *HttpHandler) PostPaymentHandler(w http.ResponseWriter, r *http.Re
 			resp := models.ErrorResponse{
 				ErrorMessage: "error updating balance",
 			}
-			handler.responseWriter(w, resp, http.StatusNotFound)
+			handler.responseWriter(w, resp, http.StatusInternalServerError)
 			return
 		}
 
@@ -147,7 +147,7 @@ func (handler *HttpHandler) PostPaymentHandler(w http.ResponseWriter, r *http.Re
 			resp := models.ErrorResponse{
 				ErrorMessage: "error creating transaction record",
 			}
-			handler.responseWriter(w, resp, http.StatusNoContent)
+			handler.responseWriter(w, resp, http.StatusInternalServerError)
 			return
 		}
 
@@ -156,7 +156,7 @@ func (handler *HttpHandler) PostPaymentHandler(w http.ResponseWriter, r *http.Re
 			resp := models.ErrorResponse{
 				ErrorMessage: "error updating balance",
 			}
-			handler.responseWriter(w, resp, http.StatusNotFound)
+			handler.responseWriter(w, resp, http.StatusInternalServerError)
 			return
 		}
 
